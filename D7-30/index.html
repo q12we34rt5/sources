@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" href="assets/icon.png">
+    <meta charset="UTF-8">
+    <script src="css-element-queries-1.2.1/src/ResizeSensor.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/earlyaccess/cwtexfangsong.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <style>
+        html,
+        body {
+            background-color: rgb(255, 217, 223);
+            /* background-color: rgb(228, 255, 217); */
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+        }
+
+        .title {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            margin-bottom: 50vh;
+        }
+
+        .title>h1 {
+            font-family: 'cwTeXFangSong', 'Parisienne', serif;
+            font-size: 10vw;
+            margin: auto;
+        }
+
+        .heart {
+            background: #ff72c4;
+            /* background: #66fd73; */
+            position: fixed;
+            transform: rotate(45deg);
+        }
+
+        .heart::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            margin-left: -60%;
+            background: #ff72c4;
+            /* background: #66fd73; */
+            border-radius: 50% 0 0 50%;
+        }
+
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            margin-top: -60%;
+            background: #ff72c4;
+            /* background: #66fd73; */
+            border-radius: 50% 50% 0 0;
+        }
+
+        .card-container {
+            /*
+            max-width: 1400px;
+            max-height: 700px;
+            */
+            width: 80vw;
+            height: 40vw;
+            margin: auto;
+            z-index: 1;
+            position: relative;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 0.5vw #00000055;
+            margin-bottom: 10%;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transition-duration: 1s;
+            position: relative;
+            transform: translateY(50px);
+        }
+
+        .card-display {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery {
+            width: 60%;
+            height: 80%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery>.page-scroller {
+            transition-duration: 1s;
+        }
+
+        .gallery>.page-scroller>.page {
+            background-color: #000000;
+            overflow: hidden;
+            float: left;
+        }
+
+        .card-right {
+            display: flex;
+            overflow: hidden;
+        }
+
+        .card-right>.card-bg {
+            left: 40%;
+            width: 70%;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .card-right>.text {
+            width: 30%;
+            height: 80%;
+            margin: auto auto auto 5%;
+        }
+
+        .card-right>.gallery-container {
+            width: 50%;
+            height: 60%;
+            margin: auto 5% auto auto;
+            display: flex;
+            background-color: white;
+            border: 0.7vw solid white;
+            box-shadow: 0.3vw 0.3vw 0.3vw rgba(0, 0, 0, 0.5);
+        }
+
+        .card-right>.gallery-container>.gallery {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+        }
+
+        .card-left {
+            display: flex;
+            overflow: hidden;
+        }
+
+        .card-left>.card-bg {
+            left: 40%;
+            width: 70%;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .card-left>.text {
+            width: 30%;
+            height: 80%;
+            margin: auto 5% auto auto;
+        }
+
+        .card-left>.gallery-container {
+            width: 50%;
+            height: 60%;
+            margin: auto auto auto 5%;
+            display: flex;
+            background-color: white;
+            border: 0.7vw solid white;
+            box-shadow: 0.3vw 0.3vw 0.3vw rgba(0, 0, 0, 0.5);
+        }
+
+        .card-left>.gallery-container>.gallery {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+        }
+
+        .text {
+            position: relative;
+        }
+
+        .text>h1 {
+            width: 100%;
+            font-family: 'cwTeXFangSong', 'Parisienne', serif;
+            font-size: 3.5vw;
+        }
+
+        .text>div {
+            width: 100%;
+            font-family: 'cwTeXFangSong', 'Parisienne', serif;
+            font-size: 2vw;
+        }
+
+        .text>.left-date {
+            text-align: left;
+            position: absolute;
+            top: 98%;
+        }
+
+        .text>.right-date {
+            text-align: right;
+            position: absolute;
+            top: 98%;
+        }
+
+        .text-invisible {
+            transition-duration: 1s;
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+
+        .text-display {
+            transform: translateY(0px);
+            opacity: 1;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <script>
+        function parseElement(html) {
+            var htmlContainer = document.createElement('html');
+            htmlContainer.innerHTML = html;
+            return htmlContainer.childNodes[1].childNodes[0];
+        }
+        function createHeart() {
+            let initTop = Math.random() * 100 + 100;
+            let size = (Math.random() * 50),
+                left = (Math.random() * 100),
+                top = initTop;
+            let element = parseElement(
+                `<div class="heart" style="left:${left}vw;top:${initTop}vh;width:${size}px;height:${size}px"></div>`
+            );
+            document.body.appendChild(element);
+            setInterval(() => {
+                top -= 0.001 * size;
+                element.style.top = top + "vh";
+                if (top < -10) top = initTop;
+            }, 10);
+        }
+        for (let i = 0; i < 100; i++)
+            createHeart();
+    </script>
+
+    <script>
+        class makeGallery {
+            constructor(element) {
+                this.element = element;
+                this.scroller = element.querySelector(".page-scroller");
+                this.pages = element.querySelectorAll(".page");
+                this.setGallerySize();
+                new ResizeSensor(this.element, () => {
+                    this.setGallerySize();
+                    this.setScrollerPosition();
+                });
+                this.page_count = this.pages.length;
+                this.current_page = 0;
+                this.autoPageScroll = setInterval(() => {
+                    this.moveNext();
+                }, 5000);
+                this.mouseDrop();
+            }
+            mouseDrop = () => {
+                let mouseX = 0;
+                let offsetX = 0;
+                let isDown = false;
+                let initX = 0;
+                this.scroller.addEventListener('mousedown', e => {
+                    isDown = true;
+                    mouseX = e.pageX;
+                    initX = parseInt(this.scroller.style.marginLeft);
+                    document.addEventListener('mousemove', move)
+                    if (this.autoPageScroll) {
+                        clearInterval(this.autoPageScroll);
+                        this.autoPageScroll = null;
+                    }
+                    this.scroller.style.transitionDuration = "0s";
+                });
+                document.addEventListener('mouseup', e => {
+                    isDown = false;
+                    document.removeEventListener('mousemove', move)
+                    if (this.autoPageScroll == null) {
+                        this.autoPageScroll = setInterval(() => {
+                            this.moveNext();
+                        }, 5000);
+                    }
+                    this.scroller.style.transitionDuration = "1s";
+                    const transitionPages = Math.floor(-parseInt(this.scroller.style.marginLeft) / this.element.offsetWidth + 0.5);
+                    this.current_page = (transitionPages + this.page_count * 5) % this.page_count;
+                    this.setScrollerPosition();
+                });
+                const move = (e) => {
+                    if (e.pageX < document.body.clientWidth)
+                        if (isDown) {
+                            const dx = e.pageX - mouseX;
+                            this.scroller.style.marginLeft = `${initX + dx}px`;
+                        }
+                }
+            }
+            setGallerySize = () => {
+                // set page size
+                this.pages.forEach(page => {
+                    page.style.width = this.element.offsetWidth + "px";
+                    page.style.height = this.element.offsetHeight + "px";
+                });
+                this.scroller.style.width = this.page_count * this.element.offsetWidth + "px";
+                this.scroller.style.height = this.element.offsetHeight + "px";
+            }
+            moveNext = () => {
+                this.current_page = (this.current_page + 1) % this.page_count;
+                this.setScrollerPosition();
+            }
+            movePrevious = () => {
+                this.current_page = (this.current_page + this.page_count - 1) % this.page_count;
+                this.setScrollerPosition();
+            }
+            setScrollerPosition = () => {
+                this.scroller.style.marginLeft = -this.current_page * this.element.offsetWidth + "px";
+            }
+        }
+    </script>
+
+    <script>
+        function appendImages(file_list, container) {
+            file_list.forEach(elem => {
+                const htmlElemStr = `
+                    <div class="page">
+                        <img src="${elem.file}" ondragstart="return false;">
+                    </div>
+                `;
+                const page = parseElement(htmlElemStr);
+                const img = page.querySelector('img');
+                img.addEventListener('load', (event) => {
+                    setTimeout(() => {
+                        const wh_ratio = page.offsetWidth / page.offsetHeight;
+                        if (img.naturalWidth > wh_ratio * img.naturalHeight) {
+                            // set height 100%
+                            img.style.height = `${100 * elem.size}%`;
+                        } else {
+                            // set width 100%
+                            img.style.width = `${100 * elem.size}%`;
+                        }
+                        img.style.marginLeft = `${elem.offsetX}%`;
+                        img.style.marginTop = `${elem.offsetY}%`;
+                    }, 500);
+                });
+                container.appendChild(page);
+            });
+        }
+    </script>
+
+    <div class="card-container">
+        <div class="title">
+            <h1>相簿/2020</h1>
+        </div>
+        <div class="card card-right">
+            <div class="text">
+                <h1 class="text-invisible">袖珍博物館</h1>
+                <div class="text-invisible">行1---------------------</div>
+                <div class="text-invisible">行2---------------------</div>
+                <div class="text-invisible">行3---------------------</div>
+                <div class="text-invisible left-date">2020/8/6</div>
+            </div>
+            <div class="gallery-container text-invisible">
+                <div class="gallery">
+                    <div class="page-scroller" id="gallery-pages-1">
+                    </div>
+                </div>
+            </div>
+            <script>
+                const file_list_1 = [
+                    { file: 'assets/test/1.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test/2.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test/3.jpg', size: 1, offsetX: 0, offsetY: -40, },
+                    { file: 'assets/test/4.jpg', size: 1, offsetX: 0, offsetY: -5, },
+                ];
+                const container_1 = document.getElementById('gallery-pages-1');
+                appendImages(file_list_1, container_1);
+            </script>
+        </div>
+        <div class="card card-left">
+            <div class="gallery-container text-invisible">
+                <div class="gallery">
+                    <div class="page-scroller" id="gallery-pages-2">
+                    </div>
+                </div>
+            </div>
+            <div class="text">
+                <h1 class="text-invisible">士林官邸</h1>
+                <div class="text-invisible">行1---------------------</div>
+                <div class="text-invisible">行2---------------------</div>
+                <div class="text-invisible">行3---------------------</div>
+                <div class="text-invisible right-date">2021/4/4</div>
+            </div>
+            <script>
+                const file_list_2 = [
+                    { file: 'assets/test2/IMG20210404084440.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404084953.jpg', size: 1, offsetX: 0, offsetY: -25, },
+                    { file: 'assets/test2/IMG20210404085028.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404085324.jpg', size: 1, offsetX: 0, offsetY: -25, },
+                    { file: 'assets/test2/IMG20210404085530.jpg', size: 1, offsetX: 0, offsetY: -8, },
+                    { file: 'assets/test2/IMG20210404085813.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/test2/IMG20210404090035.jpg', size: 1, offsetX: 0, offsetY: -45, },
+                    { file: 'assets/test2/IMG20210404090256.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/test2/IMG20210404090322.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/test2/IMG20210404090529.jpg', size: 1, offsetX: 0, offsetY: -45, },
+                    { file: 'assets/test2/IMG20210404090542.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/test2/IMG20210404090610.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/test2/IMG20210404090627.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/test2/IMG20210404091005.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/test2/IMG20210404091248.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404091602.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404091821.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/test2/IMG20210404094150.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/test2/IMG20210404094211.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/test2/IMG20210404094212.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/test2/IMG20210404094309.jpg', size: 1, offsetX: 0, offsetY: -45, },
+                    { file: 'assets/test2/IMG20210404094315.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/test2/IMG20210404094329.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/test2/IMG20210404094334.jpg', size: 1, offsetX: 0, offsetY: -40, },
+                    { file: 'assets/test2/IMG20210404095638.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/test2/IMG20210404095719.jpg', size: 1, offsetX: 0, offsetY: -12 },
+                    { file: 'assets/test2/IMG20210404095728.jpg', size: 1, offsetX: 0, offsetY: -12, },
+                    { file: 'assets/test2/IMG20210404095843.jpg', size: 1, offsetX: 0, offsetY: -40, },
+                    { file: 'assets/test2/IMG20210404100152.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/test2/IMG20210404100205.jpg', size: 1, offsetX: 0, offsetY: -20, },
+                    { file: 'assets/test2/IMG20210404100223.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100240.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/test2/IMG20210404100302.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100326.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100332.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100343.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100351.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100359.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100403.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100411.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100419.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100431.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100439.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100514.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100529.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100543.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100548.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                ];
+                const container_2 = document.getElementById('gallery-pages-2');
+                appendImages(file_list_2, container_2);
+            </script>
+        </div>
+        <div class="card card-right">
+            <div class="text">
+                <h1 class="text-invisible">淡水</h1>
+                <div class="text-invisible">行1---------------------</div>
+                <div class="text-invisible">行2---------------------</div>
+                <div class="text-invisible">行3---------------------</div>
+                <div class="text-invisible left-date">2020/8/20</div>
+            </div>
+            <div class="gallery-container text-invisible">
+                <div class="gallery">
+                    <div class="page-scroller" id="gallery-pages-3">
+                    </div>
+                </div>
+            </div>
+            <script>
+                const file_list_3 = [
+                    { file: 'assets/tamsui/20200820_162338.jpg', size: 1, offsetX: 0, offsetY: -8, },
+                    { file: 'assets/tamsui/20200820_162416.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/tamsui/20200820_162439.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/tamsui/20200820_162528.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/tamsui/20200820_162548.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/tamsui/20200820_162559.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/tamsui/20200820_162620.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/tamsui/20200820_162636.jpg', size: 1, offsetX: 0, offsetY: -5, },
+                    { file: 'assets/tamsui/20200820_162656.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/tamsui/20200820_162729.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/tamsui/20200820_162749.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/tamsui/20200820_162811.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/tamsui/20200820_162827.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/tamsui/20200820_162915.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/tamsui/20200820_162948.jpg', size: 1, offsetX: 0, offsetY: -5, },
+                    { file: 'assets/tamsui/20200820_163132.jpg', size: 1, offsetX: 0, offsetY: -24, },
+                    { file: 'assets/tamsui/IMG20200820112714.jpg', size: 1, offsetX: 0, offsetY: -40, },
+                    { file: 'assets/tamsui/IMG20200820113933.jpg', size: 1, offsetX: 0, offsetY: -40, },
+                    { file: 'assets/tamsui/IMG20200820113935.jpg', size: 1, offsetX: 0, offsetY: -40, },
+                    { file: 'assets/tamsui/IMG20200820113957.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/tamsui/IMG20200820113959.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/tamsui/IMG20200820113961.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/tamsui/IMG20200820120000.jpg', size: 1, offsetX: 0, offsetY: -5, },
+                    { file: 'assets/tamsui/IMG20200820120001.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/tamsui/IMG20200820120003.jpg', size: 1, offsetX: 0, offsetY: -20, },
+                    { file: 'assets/tamsui/IMG20200820140023.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/tamsui/IMG20200820140024.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/tamsui/IMG20200820140025.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/tamsui/IMG20200820140027.jpg', size: 1, offsetX: 0, offsetY: -45, },
+                    { file: 'assets/tamsui/IMG20200820143712.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/tamsui/IMG20200820161741.jpg', size: 1, offsetX: 0, offsetY: -25, },
+                    { file: 'assets/tamsui/IMG20200820161746.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/tamsui/IMG20200820161751.jpg', size: 1, offsetX: 0, offsetY: -40, },
+                    { file: 'assets/tamsui/IMG20200820161801.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/tamsui/IMG20200820161809.jpg', size: 1, offsetX: 0, offsetY: -40, },
+                    { file: 'assets/tamsui/IMG20200820163225.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/tamsui/IMG20200820163323.jpg', size: 1, offsetX: 0, offsetY: -3, },
+                    { file: 'assets/tamsui/IMG20200820163349.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/tamsui/IMG20200820163425.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/tamsui/IMG20200820180647.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/tamsui/IMG20200820181552.jpg', size: 1, offsetX: 0, offsetY: -25, },
+                    { file: 'assets/tamsui/IMG20200820181552_01.jpg', size: 1, offsetX: 0, offsetY: -25, },
+                    { file: 'assets/tamsui/IMG20200820181612.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/tamsui/IMG20200820185458.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                ];
+                const container_3 = document.getElementById('gallery-pages-3');
+                appendImages(file_list_3, container_3);
+            </script>
+        </div>
+        <div class="card card-left">
+            <div class="gallery-container text-invisible">
+                <div class="gallery">
+                    <div class="page-scroller" id="gallery-pages-4">
+                    </div>
+                </div>
+            </div>
+            <div class="text">
+                <h1 class="text-invisible">碧潭</h1>
+                <div class="text-invisible">行1---------------------</div>
+                <div class="text-invisible">行2---------------------</div>
+                <div class="text-invisible">行3---------------------</div>
+                <div class="text-invisible right-date">2021/1/26</div>
+            </div>
+            <script>
+                const file_list_4 = [
+                    { file: 'assets/bitan/IMG20210126101814.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/bitan/IMG20210126101831.jpg', size: 1, offsetX: 0, offsetY: -20, },
+                    { file: 'assets/bitan/IMG20210126101932.jpg', size: 1, offsetX: 0, offsetY: -8, },
+                    { file: 'assets/bitan/IMG20210126102041.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/bitan/IMG20210126102558.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/bitan/IMG20210126110436.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/bitan/IMG20210126111011.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/bitan/IMG20210126111038.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/bitan/IMG20210126155805.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                ];
+                const container_4 = document.getElementById('gallery-pages-4');
+                appendImages(file_list_4, container_4);
+            </script>
+        </div>
+        <div class="card card-right">
+            <div class="text">
+                <h1 class="text-invisible">基隆/和平島</h1>
+                <div class="text-invisible">行1---------------------</div>
+                <div class="text-invisible">行2---------------------</div>
+                <div class="text-invisible">行3---------------------</div>
+                <div class="text-invisible left-date">2021/2/19</div>
+            </div>
+            <div class="gallery-container text-invisible">
+                <div class="gallery">
+                    <div class="page-scroller" id="gallery-pages-5">
+                    </div>
+                </div>
+            </div>
+            <script>
+                const file_list_5 = [
+                    { file: 'assets/peace-island/IMG20210219115643.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/peace-island/IMG20210219094307.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/peace-island/IMG20210219094442.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/peace-island/IMG20210219094619.jpg', size: 1, offsetX: 0, offsetY: -5, },
+                    { file: 'assets/peace-island/IMG20210219094650.jpg', size: 1, offsetX: 0, offsetY: -5, },
+                    { file: 'assets/peace-island/IMG20210219095033.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/peace-island/IMG20210219095543.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/peace-island/IMG20210219095620.jpg', size: 1, offsetX: 0, offsetY: -5, },
+                    { file: 'assets/peace-island/IMG20210219095637.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/peace-island/IMG20210219095755.jpg', size: 1, offsetX: 0, offsetY: -20, },
+                    { file: 'assets/peace-island/IMG20210219095847.jpg', size: 1, offsetX: 0, offsetY: -20, },
+                    { file: 'assets/peace-island/IMG20210219095940.jpg', size: 1, offsetX: 0, offsetY: -32, },
+                    { file: 'assets/peace-island/IMG20210219100018.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/peace-island/IMG20210219100027.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/peace-island/IMG20210219100229.jpg', size: 1, offsetX: 0, offsetY: -5, },
+                    { file: 'assets/peace-island/IMG20210219100315.jpg', size: 1, offsetX: 0, offsetY: -5, },
+                    { file: 'assets/peace-island/IMG20210219100359.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/peace-island/IMG20210219100551.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/peace-island/IMG20210219100708.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/peace-island/IMG20210219100827.jpg', size: 1, offsetX: 0, offsetY: -5, },
+                    { file: 'assets/peace-island/IMG20210219100900.jpg', size: 1, offsetX: 0, offsetY: -5, },
+                ];
+                const container_5 = document.getElementById('gallery-pages-5');
+                appendImages(file_list_5, container_5);
+            </script>
+        </div>
+        <div class="card card-left">
+            <div class="gallery-container text-invisible">
+                <div class="gallery">
+                    <div class="page-scroller" id="gallery-pages-d">
+                    </div>
+                </div>
+            </div>
+            <div class="text">
+                <h1 class="text-invisible">第一天</h1>
+                <div class="text-invisible">行1---------------------</div>
+                <div class="text-invisible">行2---------------------</div>
+                <div class="text-invisible">行3---------------------</div>
+                <div class="text-invisible right-date">2020/7/30</div>
+            </div>
+            <script>
+                const file_list_d = [
+                    { file: 'assets/d730/IMG20200730145913.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/d730/IMG20200730150013.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                ];
+                const container_d = document.getElementById('gallery-pages-d');
+                appendImages(file_list_d, container_d);
+            </script>
+        </div>
+        <div class="card card-right">
+            <div class="text">
+                <h1 class="text-invisible">十分</h1>
+                <div class="text-invisible">行1---------------------</div>
+                <div class="text-invisible">行2---------------------</div>
+                <div class="text-invisible">行3---------------------</div>
+                <div class="text-invisible left-date">2020/7/9</div>
+            </div>
+            <div class="gallery-container text-invisible">
+                <div class="gallery">
+                    <div class="page-scroller" id="gallery-pages-s">
+                    </div>
+                </div>
+            </div>
+            <script>
+                const file_list_s = [
+                    { file: 'assets/shifen/IMG20200709140525.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/shifen/IMG20200709142156.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/shifen/IMG20200709142336.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/shifen/IMG20200709142418.jpg', size: 1, offsetX: 0, offsetY: -23, },
+                    { file: 'assets/shifen/IMG20200709142449.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/shifen/IMG20200709142457.jpg', size: 1, offsetX: 0, offsetY: -40, },
+                    { file: 'assets/shifen/IMG20200709142744.jpg', size: 1, offsetX: 0, offsetY: -5, },
+                    { file: 'assets/shifen/IMG20200709142850.jpg', size: 1.2, offsetX: -5, offsetY: -40, },
+                    { file: 'assets/shifen/IMG20200709142922.jpg', size: 1.2, offsetX: -15, offsetY: -15, },
+                    { file: 'assets/shifen/IMG20200709142932.jpg', size: 1, offsetX: 0, offsetY: -45, },
+                    { file: 'assets/shifen/IMG20200709144722.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/shifen/IMG20200709144727.jpg', size: 1, offsetX: 0, offsetY: -25, },
+                ];
+                const container_s = document.getElementById('gallery-pages-s');
+                appendImages(file_list_s, container_s);
+            </script>
+        </div>
+        <div class="card card-left">
+            <div class="gallery-container text-invisible">
+                <div class="gallery">
+                    <div class="page-scroller" id="gallery-pages-n">
+                    </div>
+                </div>
+            </div>
+            <div class="text">
+                <h1 class="text-invisible">新月橋</h1>
+                <div class="text-invisible">行1---------------------</div>
+                <div class="text-invisible">行2---------------------</div>
+                <div class="text-invisible">行3---------------------</div>
+                <div class="text-invisible right-date">2020/10/2</div>
+            </div>
+            <script>
+                const file_list_n = [
+                    { file: 'assets/crescent-bridge/IMG20201002173659.jpg', size: 1, offsetX: 0, offsetY: 0,  },
+                    { file: 'assets/crescent-bridge/IMG20201002173719.jpg', size: 1, offsetX: 0, offsetY: -10,  },
+                    { file: 'assets/crescent-bridge/IMG20201002173755.jpg', size: 1, offsetX: 0, offsetY: -35,  },
+                    { file: 'assets/crescent-bridge/IMG20201002173817.jpg', size: 1, offsetX: 0, offsetY: -5,  },
+                    { file: 'assets/crescent-bridge/IMG20201002173837.jpg', size: 1, offsetX: 0, offsetY: -10,  },
+                ];
+                const container_n = document.getElementById('gallery-pages-n');
+                appendImages(file_list_n, container_n);
+            </script>
+        </div>
+        <div style="width: 100px; height: 100px;"></div>
+    </div>
+    <script>
+        document.querySelectorAll(".gallery").forEach(elem => {
+            new makeGallery(elem);
+        });
+    </script>
+
+    <script>
+        function getPosition(element) {
+            var x = 0;
+            var y = 0;
+            while (element) {
+                x += element.offsetLeft - element.scrollLeft + element.clientLeft;
+                y += element.offsetTop - element.scrollLeft + element.clientTop;
+                element = element.offsetParent;
+            }
+            return { x: x, y: y };
+        }
+        let card_list = document.querySelectorAll(".card");
+        card_list.forEach(elem => {
+            elem.on = {};
+        });
+        window.addEventListener('scroll', () => {
+            let screen_margin = {
+                top: window.pageYOffset,
+                bottom: window.pageYOffset + document.body.clientHeight
+            };
+            card_list.forEach(elem => {
+                let pos = getPosition(elem);
+                let elem_margin = {
+                    top: pos.y,
+                    bottom: pos.y + elem.offsetHeight
+                };
+                if (screen_margin.top < elem_margin.top && screen_margin.bottom > elem_margin.bottom) {
+                    if (elem.on.intoScreen)
+                        elem.on.intoScreen();
+                }
+                if (!((screen_margin.top < elem_margin.bottom && screen_margin.bottom > elem_margin.bottom) ||
+                    (screen_margin.top < elem_margin.top && screen_margin.bottom > elem_margin.top))) {
+                    if (elem.on.outScreen)
+                        elem.on.outScreen();
+                }
+            });
+        });
+        card_list.forEach(elem => {
+            let orderDisplaying = null;
+            const textList = [];
+            try {
+                elem.querySelector(".text").childNodes.forEach(elem => {
+                    if (elem.nodeName == "H1" || elem.nodeName == "DIV")
+                        textList.push(elem);
+                });
+                textList.push(document.createElement("div"));
+                textList.push(document.createElement("div"));
+                textList.push(elem.querySelector(".gallery-container"));
+            } catch (e) { }
+            elem.on.intoScreen = () => {
+                elem.classList.add("card-display");
+                if (orderDisplaying == null) {
+                    let i = 0, end = textList.length;
+                    orderDisplaying = setInterval(() => {
+                        if (i >= end) clearInterval(orderDisplaying);
+                        textList[i++].classList.add("text-display");
+                    }, 3);
+                }
+            }
+            elem.on.outScreen = () => {
+                elem.classList.remove("card-display");
+                textList.forEach(elem => {
+                    elem.classList.remove("text-display");
+                });
+                if (orderDisplaying != null) {
+                    clearInterval(orderDisplaying);
+                    orderDisplaying = null;
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
