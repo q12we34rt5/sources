@@ -30,6 +30,7 @@
         .title>h1 {
             font-family: 'cwTeXFangSong', 'Parisienne', serif;
             font-size: 10vw;
+            font-weight: 500;
             margin: auto;
         }
 
@@ -183,23 +184,26 @@
 
         .text>h1 {
             width: 100%;
-            font-family: 'cwTeXFangSong', 'Parisienne', serif;
+            font-family: 'cwTeXFangSong', serif;
             font-size: 3.5vw;
         }
 
         .text>div {
             width: 100%;
-            font-family: 'cwTeXFangSong', 'Parisienne', serif;
+            font-family: 'cwTeXFangSong', serif;
             font-size: 2vw;
+            line-height: 1.5;
         }
 
         .text>.left-date {
+            font-family: 'cwTeXFangSong', 'Parisienne', serif;
             text-align: left;
             position: absolute;
             top: 98%;
         }
 
         .text>.right-date {
+            font-family: 'cwTeXFangSong', 'Parisienne', serif;
             text-align: right;
             position: absolute;
             top: 98%;
@@ -359,10 +363,75 @@
         </div>
         <div class="card card-right">
             <div class="text">
+                <h1 class="text-invisible">十分</h1>
+                <div class="text-invisible">這應該是我們去過最遠的地方</div>
+                <div class="text-invisible">吧？還是基隆其實比較遠？</div>
+                <div class="text-invisible">整理照片的時候真的覺得我的</div>
+                <div class="text-invisible">表情看起來好怪 XD</div>
+                <div class="text-invisible">對這裡真的印象深刻，很喜歡</div>
+                <div class="text-invisible">這種風景區，謝謝妳把行程規</div>
+                <div class="text-invisible">畫得這麼完美。</div>
+                <div class="text-invisible left-date">2020/7/9</div>
+            </div>
+            <div class="gallery-container text-invisible">
+                <div class="gallery">
+                    <div class="page-scroller" id="gallery-pages-s">
+                    </div>
+                </div>
+            </div>
+            <script>
+                const file_list_s = [
+                    { file: 'assets/shifen/IMG20200709140525.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/shifen/IMG20200709142156.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/shifen/IMG20200709142336.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/shifen/IMG20200709142418.jpg', size: 1, offsetX: 0, offsetY: -23, },
+                    { file: 'assets/shifen/IMG20200709142449.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/shifen/IMG20200709142457.jpg', size: 1, offsetX: 0, offsetY: -40, },
+                    { file: 'assets/shifen/IMG20200709142744.jpg', size: 1, offsetX: 0, offsetY: -5, },
+                    { file: 'assets/shifen/IMG20200709142850.jpg', size: 1.2, offsetX: -5, offsetY: -40, },
+                    { file: 'assets/shifen/IMG20200709142922.jpg', size: 1.2, offsetX: -15, offsetY: -15, },
+                    { file: 'assets/shifen/IMG20200709142932.jpg', size: 1, offsetX: 0, offsetY: -45, },
+                    { file: 'assets/shifen/IMG20200709144722.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/shifen/IMG20200709144727.jpg', size: 1, offsetX: 0, offsetY: -25, },
+                ];
+                const container_s = document.getElementById('gallery-pages-s');
+                appendImages(file_list_s, container_s);
+            </script>
+        </div>
+        <div class="card card-left">
+            <div class="gallery-container text-invisible">
+                <div class="gallery">
+                    <div class="page-scroller" id="gallery-pages-d">
+                    </div>
+                </div>
+            </div>
+            <div class="text">
+                <h1 class="text-invisible">第一天</h1>
+                <div class="text-invisible">雖然這天拍的照片少的可憐，</div>
+                <div class="text-invisible">但實在是太重要了 XD</div>
+                <div class="text-invisible">而且妳也很難得的穿了短褲。</div>
+                <div class="text-invisible">雖然記憶力很糟，但還是記得</div>
+                <div class="text-invisible">妳那天特別可愛的感覺 XD</div>
+                <div class="text-invisible">這也是我印象最深刻的一天。</div>
+                <div class="text-invisible right-date">2020/7/30</div>
+            </div>
+            <script>
+                const file_list_d = [
+                    { file: 'assets/d730/IMG20200730145913.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/d730/IMG20200730150013.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                ];
+                const container_d = document.getElementById('gallery-pages-d');
+                appendImages(file_list_d, container_d);
+            </script>
+        </div>
+        <div class="card card-right">
+            <div class="text">
                 <h1 class="text-invisible">袖珍博物館</h1>
-                <div class="text-invisible">行1---------------------</div>
-                <div class="text-invisible">行2---------------------</div>
-                <div class="text-invisible">行3---------------------</div>
+                <div class="text-invisible">我記得這天應該有拍不少照片</div>
+                <div class="text-invisible">才對，可能都是妳拍的吧。</div>
+                <div class="text-invisible">可惜我手機裡只有幾張。</div>
+                <div class="text-invisible">我還記得這天體感時間特別短</div>
+                <div class="text-invisible">XD</div>
                 <div class="text-invisible left-date">2020/8/6</div>
             </div>
             <div class="gallery-container text-invisible">
@@ -385,84 +454,21 @@
         <div class="card card-left">
             <div class="gallery-container text-invisible">
                 <div class="gallery">
-                    <div class="page-scroller" id="gallery-pages-2">
-                    </div>
-                </div>
-            </div>
-            <div class="text">
-                <h1 class="text-invisible">士林官邸</h1>
-                <div class="text-invisible">行1---------------------</div>
-                <div class="text-invisible">行2---------------------</div>
-                <div class="text-invisible">行3---------------------</div>
-                <div class="text-invisible right-date">2021/4/4</div>
-            </div>
-            <script>
-                const file_list_2 = [
-                    { file: 'assets/test2/IMG20210404084440.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404084953.jpg', size: 1, offsetX: 0, offsetY: -25, },
-                    { file: 'assets/test2/IMG20210404085028.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404085324.jpg', size: 1, offsetX: 0, offsetY: -25, },
-                    { file: 'assets/test2/IMG20210404085530.jpg', size: 1, offsetX: 0, offsetY: -8, },
-                    { file: 'assets/test2/IMG20210404085813.jpg', size: 1, offsetX: 0, offsetY: -10, },
-                    { file: 'assets/test2/IMG20210404090035.jpg', size: 1, offsetX: 0, offsetY: -45, },
-                    { file: 'assets/test2/IMG20210404090256.jpg', size: 1, offsetX: 0, offsetY: -35, },
-                    { file: 'assets/test2/IMG20210404090322.jpg', size: 1, offsetX: 0, offsetY: -10, },
-                    { file: 'assets/test2/IMG20210404090529.jpg', size: 1, offsetX: 0, offsetY: -45, },
-                    { file: 'assets/test2/IMG20210404090542.jpg', size: 1, offsetX: 0, offsetY: -30, },
-                    { file: 'assets/test2/IMG20210404090610.jpg', size: 1, offsetX: 0, offsetY: -10, },
-                    { file: 'assets/test2/IMG20210404090627.jpg', size: 1, offsetX: 0, offsetY: -35, },
-                    { file: 'assets/test2/IMG20210404091005.jpg', size: 1, offsetX: 0, offsetY: -35, },
-                    { file: 'assets/test2/IMG20210404091248.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404091602.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404091821.jpg', size: 1, offsetX: 0, offsetY: -15, },
-                    { file: 'assets/test2/IMG20210404094150.jpg', size: 1, offsetX: 0, offsetY: -35, },
-                    { file: 'assets/test2/IMG20210404094211.jpg', size: 1, offsetX: 0, offsetY: -35, },
-                    { file: 'assets/test2/IMG20210404094212.jpg', size: 1, offsetX: 0, offsetY: -35, },
-                    { file: 'assets/test2/IMG20210404094309.jpg', size: 1, offsetX: 0, offsetY: -45, },
-                    { file: 'assets/test2/IMG20210404094315.jpg', size: 1, offsetX: 0, offsetY: -10, },
-                    { file: 'assets/test2/IMG20210404094329.jpg', size: 1, offsetX: 0, offsetY: -30, },
-                    { file: 'assets/test2/IMG20210404094334.jpg', size: 1, offsetX: 0, offsetY: -40, },
-                    { file: 'assets/test2/IMG20210404095638.jpg', size: 1, offsetX: 0, offsetY: -15, },
-                    { file: 'assets/test2/IMG20210404095719.jpg', size: 1, offsetX: 0, offsetY: -12 },
-                    { file: 'assets/test2/IMG20210404095728.jpg', size: 1, offsetX: 0, offsetY: -12, },
-                    { file: 'assets/test2/IMG20210404095843.jpg', size: 1, offsetX: 0, offsetY: -40, },
-                    { file: 'assets/test2/IMG20210404100152.jpg', size: 1, offsetX: 0, offsetY: -15, },
-                    { file: 'assets/test2/IMG20210404100205.jpg', size: 1, offsetX: 0, offsetY: -20, },
-                    { file: 'assets/test2/IMG20210404100223.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100240.jpg', size: 1, offsetX: 0, offsetY: -30, },
-                    { file: 'assets/test2/IMG20210404100302.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100326.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100332.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100343.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100351.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100359.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100403.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100411.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100419.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100431.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100439.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100514.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100529.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100543.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                    { file: 'assets/test2/IMG20210404100548.jpg', size: 1, offsetX: 0, offsetY: 0, },
-                ];
-                const container_2 = document.getElementById('gallery-pages-2');
-                appendImages(file_list_2, container_2);
-            </script>
-        </div>
-        <div class="card card-right">
-            <div class="text">
-                <h1 class="text-invisible">淡水</h1>
-                <div class="text-invisible">行1---------------------</div>
-                <div class="text-invisible">行2---------------------</div>
-                <div class="text-invisible">行3---------------------</div>
-                <div class="text-invisible left-date">2020/8/20</div>
-            </div>
-            <div class="gallery-container text-invisible">
-                <div class="gallery">
                     <div class="page-scroller" id="gallery-pages-3">
                     </div>
                 </div>
+            </div>
+            <div class="text">
+                <h1 class="text-invisible">淡水</h1>
+                <div class="text-invisible">真的是難得有拍一堆照片，重</div>
+                <div class="text-invisible">點還是是有拍人的 XD</div>
+                <div class="text-invisible">沒記錯我第一次計畫行程應該</div>
+                <div class="text-invisible">是北投吧，但是印象最深刻的</div>
+                <div class="text-invisible">卻是淡水。</div>
+                <div class="text-invisible">還記得夕陽很好看，但是拍起</div>
+                <div class="text-invisible">來啥都看不出來沒有，還是妳</div>
+                <div class="text-invisible">比較美 XD</div>
+                <div class="text-invisible right-date">2020/8/20</div>
             </div>
             <script>
                 const file_list_3 = [
@@ -513,6 +519,35 @@
                 ];
                 const container_3 = document.getElementById('gallery-pages-3');
                 appendImages(file_list_3, container_3);
+            </script>
+        </div>
+        <div class="card card-right">
+            <div class="text">
+                <h1 class="text-invisible">新月橋</h1>
+                <div class="text-invisible">好吧，原諒我真的忘了這天原</div>
+                <div class="text-invisible">本是去哪邊。但我還記得，這</div>
+                <div class="text-invisible">應該是我們第一次貼這麼近拍</div>
+                <div class="text-invisible">照，應該也是第一次這樣躺在</div>
+                <div class="text-invisible">妳肩上吧，真的很開心。</div>
+                <div class="text-invisible">希望我沒記錯 XD</div>
+                <div class="text-invisible left-date">2020/10/2</div>
+            </div>
+            <div class="gallery-container text-invisible">
+                <div class="gallery">
+                    <div class="page-scroller" id="gallery-pages-n">
+                    </div>
+                </div>
+            </div>
+            <script>
+                const file_list_n = [
+                    { file: 'assets/crescent-bridge/IMG20201002173659.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/crescent-bridge/IMG20201002173719.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/crescent-bridge/IMG20201002173755.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/crescent-bridge/IMG20201002173817.jpg', size: 1, offsetX: 0, offsetY: -5, },
+                    { file: 'assets/crescent-bridge/IMG20201002173837.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                ];
+                const container_n = document.getElementById('gallery-pages-n');
+                appendImages(file_list_n, container_n);
             </script>
         </div>
         <div class="card card-left">
@@ -590,83 +625,69 @@
         <div class="card card-left">
             <div class="gallery-container text-invisible">
                 <div class="gallery">
-                    <div class="page-scroller" id="gallery-pages-d">
+                    <div class="page-scroller" id="gallery-pages-2">
                     </div>
                 </div>
             </div>
             <div class="text">
-                <h1 class="text-invisible">第一天</h1>
+                <h1 class="text-invisible">士林官邸</h1>
                 <div class="text-invisible">行1---------------------</div>
                 <div class="text-invisible">行2---------------------</div>
                 <div class="text-invisible">行3---------------------</div>
-                <div class="text-invisible right-date">2020/7/30</div>
+                <div class="text-invisible right-date">2021/4/4</div>
             </div>
             <script>
-                const file_list_d = [
-                    { file: 'assets/d730/IMG20200730145913.jpg', size: 1, offsetX: 0, offsetY: -10, },
-                    { file: 'assets/d730/IMG20200730150013.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                const file_list_2 = [
+                    { file: 'assets/test2/IMG20210404084440.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404084953.jpg', size: 1, offsetX: 0, offsetY: -25, },
+                    { file: 'assets/test2/IMG20210404085028.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404085324.jpg', size: 1, offsetX: 0, offsetY: -25, },
+                    { file: 'assets/test2/IMG20210404085530.jpg', size: 1, offsetX: 0, offsetY: -8, },
+                    { file: 'assets/test2/IMG20210404085813.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/test2/IMG20210404090035.jpg', size: 1, offsetX: 0, offsetY: -45, },
+                    { file: 'assets/test2/IMG20210404090256.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/test2/IMG20210404090322.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/test2/IMG20210404090529.jpg', size: 1, offsetX: 0, offsetY: -45, },
+                    { file: 'assets/test2/IMG20210404090542.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/test2/IMG20210404090610.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/test2/IMG20210404090627.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/test2/IMG20210404091005.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/test2/IMG20210404091248.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404091602.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404091821.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/test2/IMG20210404094150.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/test2/IMG20210404094211.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/test2/IMG20210404094212.jpg', size: 1, offsetX: 0, offsetY: -35, },
+                    { file: 'assets/test2/IMG20210404094309.jpg', size: 1, offsetX: 0, offsetY: -45, },
+                    { file: 'assets/test2/IMG20210404094315.jpg', size: 1, offsetX: 0, offsetY: -10, },
+                    { file: 'assets/test2/IMG20210404094329.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/test2/IMG20210404094334.jpg', size: 1, offsetX: 0, offsetY: -40, },
+                    { file: 'assets/test2/IMG20210404095638.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/test2/IMG20210404095719.jpg', size: 1, offsetX: 0, offsetY: -12 },
+                    { file: 'assets/test2/IMG20210404095728.jpg', size: 1, offsetX: 0, offsetY: -12, },
+                    { file: 'assets/test2/IMG20210404095843.jpg', size: 1, offsetX: 0, offsetY: -40, },
+                    { file: 'assets/test2/IMG20210404100152.jpg', size: 1, offsetX: 0, offsetY: -15, },
+                    { file: 'assets/test2/IMG20210404100205.jpg', size: 1, offsetX: 0, offsetY: -20, },
+                    { file: 'assets/test2/IMG20210404100223.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100240.jpg', size: 1, offsetX: 0, offsetY: -30, },
+                    { file: 'assets/test2/IMG20210404100302.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100326.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100332.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100343.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100351.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100359.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100403.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100411.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100419.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100431.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100439.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100514.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100529.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100543.jpg', size: 1, offsetX: 0, offsetY: 0, },
+                    { file: 'assets/test2/IMG20210404100548.jpg', size: 1, offsetX: 0, offsetY: 0, },
                 ];
-                const container_d = document.getElementById('gallery-pages-d');
-                appendImages(file_list_d, container_d);
-            </script>
-        </div>
-        <div class="card card-right">
-            <div class="text">
-                <h1 class="text-invisible">十分</h1>
-                <div class="text-invisible">行1---------------------</div>
-                <div class="text-invisible">行2---------------------</div>
-                <div class="text-invisible">行3---------------------</div>
-                <div class="text-invisible left-date">2020/7/9</div>
-            </div>
-            <div class="gallery-container text-invisible">
-                <div class="gallery">
-                    <div class="page-scroller" id="gallery-pages-s">
-                    </div>
-                </div>
-            </div>
-            <script>
-                const file_list_s = [
-                    { file: 'assets/shifen/IMG20200709140525.jpg', size: 1, offsetX: 0, offsetY: -30, },
-                    { file: 'assets/shifen/IMG20200709142156.jpg', size: 1, offsetX: 0, offsetY: -10, },
-                    { file: 'assets/shifen/IMG20200709142336.jpg', size: 1, offsetX: 0, offsetY: -10, },
-                    { file: 'assets/shifen/IMG20200709142418.jpg', size: 1, offsetX: 0, offsetY: -23, },
-                    { file: 'assets/shifen/IMG20200709142449.jpg', size: 1, offsetX: 0, offsetY: -30, },
-                    { file: 'assets/shifen/IMG20200709142457.jpg', size: 1, offsetX: 0, offsetY: -40, },
-                    { file: 'assets/shifen/IMG20200709142744.jpg', size: 1, offsetX: 0, offsetY: -5, },
-                    { file: 'assets/shifen/IMG20200709142850.jpg', size: 1.2, offsetX: -5, offsetY: -40, },
-                    { file: 'assets/shifen/IMG20200709142922.jpg', size: 1.2, offsetX: -15, offsetY: -15, },
-                    { file: 'assets/shifen/IMG20200709142932.jpg', size: 1, offsetX: 0, offsetY: -45, },
-                    { file: 'assets/shifen/IMG20200709144722.jpg', size: 1, offsetX: 0, offsetY: -30, },
-                    { file: 'assets/shifen/IMG20200709144727.jpg', size: 1, offsetX: 0, offsetY: -25, },
-                ];
-                const container_s = document.getElementById('gallery-pages-s');
-                appendImages(file_list_s, container_s);
-            </script>
-        </div>
-        <div class="card card-left">
-            <div class="gallery-container text-invisible">
-                <div class="gallery">
-                    <div class="page-scroller" id="gallery-pages-n">
-                    </div>
-                </div>
-            </div>
-            <div class="text">
-                <h1 class="text-invisible">新月橋</h1>
-                <div class="text-invisible">行1---------------------</div>
-                <div class="text-invisible">行2---------------------</div>
-                <div class="text-invisible">行3---------------------</div>
-                <div class="text-invisible right-date">2020/10/2</div>
-            </div>
-            <script>
-                const file_list_n = [
-                    { file: 'assets/crescent-bridge/IMG20201002173659.jpg', size: 1, offsetX: 0, offsetY: 0,  },
-                    { file: 'assets/crescent-bridge/IMG20201002173719.jpg', size: 1, offsetX: 0, offsetY: -10,  },
-                    { file: 'assets/crescent-bridge/IMG20201002173755.jpg', size: 1, offsetX: 0, offsetY: -35,  },
-                    { file: 'assets/crescent-bridge/IMG20201002173817.jpg', size: 1, offsetX: 0, offsetY: -5,  },
-                    { file: 'assets/crescent-bridge/IMG20201002173837.jpg', size: 1, offsetX: 0, offsetY: -10,  },
-                ];
-                const container_n = document.getElementById('gallery-pages-n');
-                appendImages(file_list_n, container_n);
+                const container_2 = document.getElementById('gallery-pages-2');
+                appendImages(file_list_2, container_2);
             </script>
         </div>
         <div style="width: 100px; height: 100px;"></div>
@@ -733,7 +754,7 @@
                     orderDisplaying = setInterval(() => {
                         if (i >= end) clearInterval(orderDisplaying);
                         textList[i++].classList.add("text-display");
-                    }, 3);
+                    }, 300);
                 }
             }
             elem.on.outScreen = () => {
