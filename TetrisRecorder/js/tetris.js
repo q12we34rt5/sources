@@ -2741,12 +2741,15 @@ function CreateReplayer(container) {
     var replayer = {
         model: CreateModel(10, 20),
         tetris: CreateTetrisElement('replay'),
+        rewards: null,
+        total_rewards: null,
         setGameData: null,
         render: null,
         replay: null,
         timer: null,
+        onrender: null
     };
-    replayer.setGameData = (board, hold, next) => {
+    replayer.setGameData = (board, hold, next, rewards) => {
         let game_data = replayer.tetris.game.model.getGameData();
         for (let i = 0; i < replayer.model.board.height; i++)
             for (let j = 0; j < replayer.model.board.width; j++)
@@ -2762,29 +2765,40 @@ function CreateReplayer(container) {
             game_data.queue[i].offset_y = replayer.model.block.centerOffset[type][1];
         }
         replayer.tetris.game.model.setGameData(game_data.data, game_data.shadow, game_data.queue, game_data.block);
+        replayer.rewards = rewards;
+        replayer.total_rewards += rewards;
     };
     replayer.render = () => {
         replayer.tetris.game.view.board.update(replayer.tetris.game.model.board.data, replayer.tetris.game.model.board.shadow);
         replayer.tetris.game.view.next.update(replayer.tetris.game.model.next.queue);
         replayer.tetris.game.view.hold.update(replayer.tetris.game.model.hold.block);
+        if (replayer.onrender)
+            replayer.onrender(replayer.rewards, replayer.total_rewards);
+
     };
     replayer.replay = (delay, data) => {
         if (replayer.timer) {
-            clearInterval(replayer.timer);
+            clearTimeout(replayer.timer);
             replayer.timer = null;
         }
         let index = 0;
         let length = data.length;
-        replayer.timer = setInterval(() => {
+        replayer.rewards = 0;
+        replayer.total_rewards = 0;
+        function update() {
             let game_data = data[index++];
             if (index >= length) {
-                clearInterval(replayer.timer);
+                clearTimeout(replayer.timer);
                 replayer.timer = null;
             }
-            replayer.setGameData(game_data.board, game_data.hold, game_data.next);
+            replayer.setGameData(game_data.board, game_data.hold, game_data.next, game_data.rewards);
             replayer.render();
-        }, delay);
+            replayer.timer = setTimeout(update, delay());
+        }
+        replayer.timer = setTimeout(update, delay());
     };
     container.appendChild(replayer.tetris.htmlElement.root);
+    let elem = replayer.tetris.htmlElement.root.querySelector(".player-name");
+    elem.parentNode.removeChild(elem);
     return replayer;
 }

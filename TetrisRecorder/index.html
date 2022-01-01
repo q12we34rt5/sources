@@ -12,611 +12,240 @@
     <link rel="stylesheet" href="css/gallery.css" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <!--
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-201984134-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'UA-201984134-1');
-    </script>
-    -->
+    <style type="text/css">
+        .control-panel-container {
+            --width: 420px;
+            width: var(--width);
+            height: calc(1.6 * var(--width));
+            --max-width: 420px;
+            max-width: var(--max-width);
+            max-height: calc(1.6 * var(--max-width));
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-top: auto;
+            margin-bottom: auto;
+            position: relative;
+        }
+
+        .control-panel {
+            width: 100%;
+            height: 0px;
+            padding: 0px;
+            padding-bottom: 160%;
+            margin: auto 0 auto 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px;
+            box-shadow: -5px -5px 5px #ffffffAf, 5px 5px 5px #0000001f;
+        }
+
+        .control-title-style {
+            font-family: monospace;
+            font-size: min(calc(var(--width) / 12), calc(var(--max-width) / 12));
+            color: #31344b;
+            margin: 5%;
+        }
+
+        .control-content-style {
+            font-family: monospace;
+            font-size: min(calc(var(--width) / 20), calc(var(--max-width) / 20));
+            color: #31344b;
+            margin: 2% 0% 3% 5%;
+        }
+
+        .control-rp-sel {
+            width: 100%;
+            margin: auto;
+            border-radius: 5px;
+            /* box-shadow: inset -5px -5px 5px #ffffffAf, inset 5px 5px 5px #0000001f; */
+            display: flex;
+            flex-wrap: wrap
+        }
+
+        .control-rp-sel>button {
+            width: 32%;
+            height: 0px;
+            padding: 0px;
+            padding-left: 5%;
+            padding-bottom: 10%;
+            margin: auto;
+            margin-bottom: 1.5%;
+            font-family: monospace;
+            font-size: min(calc(var(--width) / 20), calc(var(--max-width) / 20));
+            line-height: 2.1;
+            color: #31344b;
+            text-align: left;
+            background-color: #dde1e7;
+            border: 0px;
+            border-radius: 3px;
+            /* box-shadow: inset 0px 0px 0px #ffffff00, inset 0px 0px 0px #00000000, -3px -3px 3px #ffffffAf, 3px 3px 3px #0000001f; */
+            transition-duration: 0.2s;
+        }
+
+        .control-rp-sel>button:hover {
+            box-shadow: inset -3px -3px 3px #ffffffAf, inset 3px 3px 3px #0000001f, 0px 0px 0px #ffffff00, 0px 0px 0px #00000000;
+        }
+
+        .control-rp-sel>button:focus {
+            box-shadow: inset -3px -3px 3px #ffffffAf, inset 3px 3px 3px #0000001f, 0px 0px 0px #ffffff00, 0px 0px 0px #00000000;
+        }
+
+        .score-board-title {
+            font-family: monospace;
+            font-size: min(calc(var(--width) / 12), calc(var(--max-width) / 12));
+            color: #31344b;
+            margin: 8% 5% 5% 5%;
+        }
+
+        .step-rewards-board {
+            font-family: monospace;
+            font-size: min(calc(var(--width) / 15), calc(var(--max-width) / 15));
+            color: #31344b;
+            margin-left: 10%;
+        }
+
+        .total-rewards-board {
+            font-family: monospace;
+            font-size: min(calc(var(--width) / 15), calc(var(--max-width) / 15));
+            color: #31344b;
+            margin-left: 10%;
+        }
+
+        .slidecontainer {
+            width: 90%;
+            margin: auto;
+            position: relative;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            background-color: #dde1e7;
+            box-shadow: inset -2px -2px 2px #ffffffAf, inset 2px 2px 2px #0000001f;
+            border-radius: 1px;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 70px;
+            height: 25px;
+            background-color: #dde1e7;
+            box-shadow:
+                -2px -2px 2px #ffffffAf, 2px 2px 2px #0000001f,
+                inset -2px -2px 2px #ffffffAf, inset 2px 2px 2px #0000001f;
+            border: 2px solid #dde1e7;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #delay-value {
+            font-family: monospace;
+            font-size: 20px;
+            color: #31344b;
+            position: absolute;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="setting-panel-container">
-        <div id="setting-panel">
-            <div id="setting-title">
-                <i class="fas fa-cog"></i>
-            </div>
-            <div id="keys-setting" class="setting-list">
-                <div class="setting-list-title">&ensp;Controls</div>
-                <div class="setting-input">
-                    <p>Move Left:&ensp;&ensp;&ensp;</p>
-                    <input type="text" value="LEFT" data-keyCode="37" onkeydown="setKey(this, event)">
-                </div>
-                <div class="setting-input">
-                    <p>Move Right:&ensp;&ensp;</p>
-                    <input type="text" value="RIGHT" data-keyCode="39" onkeydown="setKey(this, event)">
-                </div>
-                <div class="setting-input">
-                    <p>Soft Drop:&ensp;&ensp;&ensp;</p>
-                    <input type="text" value="DOWN" data-keyCode="40" onkeydown="setKey(this, event)">
-                </div>
-                <div class="setting-input">
-                    <p>Hard Drop:&ensp;&ensp;&ensp;</p>
-                    <input type="text" value="SPACE" data-keyCode="32" onkeydown="setKey(this, event)">
-                </div>
-                <div class="setting-input">
-                    <p>Rotate Left:&ensp;</p>
-                    <input type="text" value="Z" data-keyCode="90" onkeydown="setKey(this, event)">
-                </div>
-                <div class="setting-input">
-                    <p>Rotate Right:</p>
-                    <input type="text" value="UP" data-keyCode="38" onkeydown="setKey(this, event)">
-                </div>
-                <div class="setting-input">
-                    <p>Rotate 180:&ensp;&ensp;</p>
-                    <input type="text" value="A" data-keyCode="65" onkeydown="setKey(this, event)">
-                </div>
-                <div class="setting-input">
-                    <p>Hold:&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</p>
-                    <input type="text" value="C" data-keyCode="67" onkeydown="setKey(this, event)">
-                </div>
-                <script type="text/javascript">
-                    const keyboardMap = [
-                        "", // [0]
-                        "", // [1]
-                        "", // [2]
-                        "CANCEL", // [3]
-                        "", // [4]
-                        "", // [5]
-                        "HELP", // [6]
-                        "", // [7]
-                        "BACK_SPACE", // [8]
-                        "TAB", // [9]
-                        "", // [10]
-                        "", // [11]
-                        "CLEAR", // [12]
-                        "ENTER", // [13]
-                        "ENTER_SPECIAL", // [14]
-                        "", // [15]
-                        "SHIFT", // [16]
-                        "CONTROL", // [17]
-                        "ALT", // [18]
-                        "PAUSE", // [19]
-                        "CAPS_LOCK", // [20]
-                        "KANA", // [21]
-                        "EISU", // [22]
-                        "JUNJA", // [23]
-                        "FINAL", // [24]
-                        "HANJA", // [25]
-                        "", // [26]
-                        "ESCAPE", // [27]
-                        "CONVERT", // [28]
-                        "NONCONVERT", // [29]
-                        "ACCEPT", // [30]
-                        "MODECHANGE", // [31]
-                        "SPACE", // [32]
-                        "PAGE_UP", // [33]
-                        "PAGE_DOWN", // [34]
-                        "END", // [35]
-                        "HOME", // [36]
-                        "LEFT", // [37]
-                        "UP", // [38]
-                        "RIGHT", // [39]
-                        "DOWN", // [40]
-                        "SELECT", // [41]
-                        "PRINT", // [42]
-                        "EXECUTE", // [43]
-                        "PRINTSCREEN", // [44]
-                        "INSERT", // [45]
-                        "DELETE", // [46]
-                        "", // [47]
-                        "0", // [48]
-                        "1", // [49]
-                        "2", // [50]
-                        "3", // [51]
-                        "4", // [52]
-                        "5", // [53]
-                        "6", // [54]
-                        "7", // [55]
-                        "8", // [56]
-                        "9", // [57]
-                        "COLON", // [58]
-                        "SEMICOLON", // [59]
-                        "LESS_THAN", // [60]
-                        "EQUALS", // [61]
-                        "GREATER_THAN", // [62]
-                        "QUESTION_MARK", // [63]
-                        "AT", // [64]
-                        "A", // [65]
-                        "B", // [66]
-                        "C", // [67]
-                        "D", // [68]
-                        "E", // [69]
-                        "F", // [70]
-                        "G", // [71]
-                        "H", // [72]
-                        "I", // [73]
-                        "J", // [74]
-                        "K", // [75]
-                        "L", // [76]
-                        "M", // [77]
-                        "N", // [78]
-                        "O", // [79]
-                        "P", // [80]
-                        "Q", // [81]
-                        "R", // [82]
-                        "S", // [83]
-                        "T", // [84]
-                        "U", // [85]
-                        "V", // [86]
-                        "W", // [87]
-                        "X", // [88]
-                        "Y", // [89]
-                        "Z", // [90]
-                        "OS_KEY", // [91] Windows Key (Windows) or Command Key (Mac)
-                        "", // [92]
-                        "CONTEXT_MENU", // [93]
-                        "", // [94]
-                        "SLEEP", // [95]
-                        "NUMPAD0", // [96]
-                        "NUMPAD1", // [97]
-                        "NUMPAD2", // [98]
-                        "NUMPAD3", // [99]
-                        "NUMPAD4", // [100]
-                        "NUMPAD5", // [101]
-                        "NUMPAD6", // [102]
-                        "NUMPAD7", // [103]
-                        "NUMPAD8", // [104]
-                        "NUMPAD9", // [105]
-                        "MULTIPLY", // [106]
-                        "ADD", // [107]
-                        "SEPARATOR", // [108]
-                        "SUBTRACT", // [109]
-                        "DECIMAL", // [110]
-                        "DIVIDE", // [111]
-                        "F1", // [112]
-                        "F2", // [113]
-                        "F3", // [114]
-                        "F4", // [115]
-                        "F5", // [116]
-                        "F6", // [117]
-                        "F7", // [118]
-                        "F8", // [119]
-                        "F9", // [120]
-                        "F10", // [121]
-                        "F11", // [122]
-                        "F12", // [123]
-                        "F13", // [124]
-                        "F14", // [125]
-                        "F15", // [126]
-                        "F16", // [127]
-                        "F17", // [128]
-                        "F18", // [129]
-                        "F19", // [130]
-                        "F20", // [131]
-                        "F21", // [132]
-                        "F22", // [133]
-                        "F23", // [134]
-                        "F24", // [135]
-                        "", // [136]
-                        "", // [137]
-                        "", // [138]
-                        "", // [139]
-                        "", // [140]
-                        "", // [141]
-                        "", // [142]
-                        "", // [143]
-                        "NUM_LOCK", // [144]
-                        "SCROLL_LOCK", // [145]
-                        "WIN_OEM_FJ_JISHO", // [146]
-                        "WIN_OEM_FJ_MASSHOU", // [147]
-                        "WIN_OEM_FJ_TOUROKU", // [148]
-                        "WIN_OEM_FJ_LOYA", // [149]
-                        "WIN_OEM_FJ_ROYA", // [150]
-                        "", // [151]
-                        "", // [152]
-                        "", // [153]
-                        "", // [154]
-                        "", // [155]
-                        "", // [156]
-                        "", // [157]
-                        "", // [158]
-                        "", // [159]
-                        "CIRCUMFLEX", // [160]
-                        "EXCLAMATION", // [161]
-                        "DOUBLE_QUOTE", // [162]
-                        "HASH", // [163]
-                        "DOLLAR", // [164]
-                        "PERCENT", // [165]
-                        "AMPERSAND", // [166]
-                        "UNDERSCORE", // [167]
-                        "OPEN_PAREN", // [168]
-                        "CLOSE_PAREN", // [169]
-                        "ASTERISK", // [170]
-                        "PLUS", // [171]
-                        "PIPE", // [172]
-                        "HYPHEN_MINUS", // [173]
-                        "OPEN_CURLY_BRACKET", // [174]
-                        "CLOSE_CURLY_BRACKET", // [175]
-                        "TILDE", // [176]
-                        "", // [177]
-                        "", // [178]
-                        "", // [179]
-                        "", // [180]
-                        "VOLUME_MUTE", // [181]
-                        "VOLUME_DOWN", // [182]
-                        "VOLUME_UP", // [183]
-                        "", // [184]
-                        "", // [185]
-                        "SEMICOLON", // [186]
-                        "EQUALS", // [187]
-                        "COMMA", // [188]
-                        "MINUS", // [189]
-                        "PERIOD", // [190]
-                        "SLASH", // [191]
-                        "BACK_QUOTE", // [192]
-                        "", // [193]
-                        "", // [194]
-                        "", // [195]
-                        "", // [196]
-                        "", // [197]
-                        "", // [198]
-                        "", // [199]
-                        "", // [200]
-                        "", // [201]
-                        "", // [202]
-                        "", // [203]
-                        "", // [204]
-                        "", // [205]
-                        "", // [206]
-                        "", // [207]
-                        "", // [208]
-                        "", // [209]
-                        "", // [210]
-                        "", // [211]
-                        "", // [212]
-                        "", // [213]
-                        "", // [214]
-                        "", // [215]
-                        "", // [216]
-                        "", // [217]
-                        "", // [218]
-                        "OPEN_BRACKET", // [219]
-                        "BACK_SLASH", // [220]
-                        "CLOSE_BRACKET", // [221]
-                        "QUOTE", // [222]
-                        "", // [223]
-                        "META", // [224]
-                        "ALTGR", // [225]
-                        "", // [226]
-                        "WIN_ICO_HELP", // [227]
-                        "WIN_ICO_00", // [228]
-                        "", // [229]
-                        "WIN_ICO_CLEAR", // [230]
-                        "", // [231]
-                        "", // [232]
-                        "WIN_OEM_RESET", // [233]
-                        "WIN_OEM_JUMP", // [234]
-                        "WIN_OEM_PA1", // [235]
-                        "WIN_OEM_PA2", // [236]
-                        "WIN_OEM_PA3", // [237]
-                        "WIN_OEM_WSCTRL", // [238]
-                        "WIN_OEM_CUSEL", // [239]
-                        "WIN_OEM_ATTN", // [240]
-                        "WIN_OEM_FINISH", // [241]
-                        "WIN_OEM_COPY", // [242]
-                        "WIN_OEM_AUTO", // [243]
-                        "WIN_OEM_ENLW", // [244]
-                        "WIN_OEM_BACKTAB", // [245]
-                        "ATTN", // [246]
-                        "CRSEL", // [247]
-                        "EXSEL", // [248]
-                        "EREOF", // [249]
-                        "PLAY", // [250]
-                        "ZOOM", // [251]
-                        "", // [252]
-                        "PA1", // [253]
-                        "WIN_OEM_CLEAR", // [254]
-                        "" // [255]
-                    ];
-                    function setKey(element, e) {
-                        element.blur();
-                        element.setAttribute("data-keyCode", e.keyCode);
-                        element.value = keyboardMap[element.getAttribute("data-keyCode")];
-                    }
-                </script>
-            </div>
-            <div id="game-setting" class="setting-list">
-                <div class="setting-list-title">&ensp;Game</div>
-                <div class="setting-input">
-                    <p>Drop rate:&ensp;&ensp;&ensp;</p>
-                    <input type="text" value="500" onchange="checkNumber(this, 500)">
-                </div>
-                <div class="setting-input">
-                    <p>DAS:&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</p>
-                    <input type="text" value="100" onchange="checkNumber(this, 100)">
-                </div>
-                <div class="setting-input">
-                    <p>ARR:&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</p>
-                    <input type="text" value="50" onchange="checkNumber(this, 50)">
-                </div>
-                <div class="setting-input">
-                    <p>Drop DAS:&ensp;&ensp;&ensp;&ensp;</p>
-                    <input type="text" value="50" onchange="checkNumber(this, 50)">
-                </div>
-                <div class="setting-input">
-                    <p>Drop ARR:&ensp;&ensp;&ensp;&ensp;</p>
-                    <input type="text" value="20" onchange="checkNumber(this, 20)">
-                </div>
-                <div class="setting-input">
-                    <p>Screen speed:</p>
-                    <input type="text" value="10" onchange="checkNumber(this, 10)">
-                </div>
-                <div class="setting-input">
-                    <p>Width:&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</p>
-                    <input type="text" value="10" onchange="checkNumber(this, 10)">
-                </div>
-                <div class="setting-input">
-                    <p>Height:&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</p>
-                    <input type="text" value="20" onchange="checkNumber(this, 20)">
-                </div>
-                <script type="text/javascript">
-                    function checkNumber(element, defval) {
-                        if (isNaN(element.value) || element.value.length == 0)
-                            element.value = defval;
-                    }
-                </script>
-            </div>
-            <div class="setting-list">
-                <div class="setting-list-title">&ensp;Skin</div>
-                <div id="block-texture-selector" class="gallery">
-                    <div class="gallery-page-scoller-action-left-trigger">
-                        <div class="gallery-page-scoller-action-left">
-                            <div class="left-arrow"></div>
-                        </div>
-                    </div>
-                    <div class="gallery-page-scoller-action-right-trigger">
-                        <div class="gallery-page-scoller-action-right">
-                            <div class="right-arrow"></div>
-                        </div>
-                    </div>
-                    <div class="gallery-page-container">
-                        <div class="gallery-page-scoller">
-                            <!-- add page here
-                            <div class="gallery-page"></div>
-                            -->
-                        </div>
-                    </div>
-                </div>
-                <div id="block-shadow-selector" class="gallery">
-                    <div class="gallery-page-scoller-action-left-trigger">
-                        <div class="gallery-page-scoller-action-left">
-                            <div class="left-arrow"></div>
-                        </div>
-                    </div>
-                    <div class="gallery-page-scoller-action-right-trigger">
-                        <div class="gallery-page-scoller-action-right">
-                            <div class="right-arrow"></div>
-                        </div>
-                    </div>
-                    <div class="gallery-page-container">
-                        <div class="gallery-page-scoller">
-                            <!-- add page here
-                            <div class="gallery-page"></div>
-                            -->
-                        </div>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                    function makeGalleryPage(title, src) {
-                        var elementString = [
-                            '<div class="gallery-page">',
-                            '<div style="',
-                            'margin: 5px auto auto 10px;',
-                            'font-size: 20px;',
-                            'font-family: monospace;',
-                            'color: #31344b;',
-                            '">',
-                            title,
-                            '</div>',
-                            '<canvas style="',
-                            'width: 184px;',
-                            'margin-top: 20px;',
-                            'margin-left: 10px;',
-                            'border: 3px solid #dde1e7;',
-                            'border-radius: 5px;',
-                            'box-shadow: -5px -5px 5px #ffffffAf, 5px 5px 5px #0000001f;',
-                            '">',
-                            '</canvas>',
-                            '</div>'
-                        ].join("\n");
-                        var page = parseElement(elementString);
-                        page.texture_src = src;
-                        var texture = GetTexture(src);
-                        var canvas = page.querySelector("canvas");
-                        const data = [
-                            [0x74, 0x46, 0x4A, 0x48, 0x32, 0x3C, 0x72, 0x7A, 0x7A, 0x78],
-                            [0x75, 0x41, 0x56, 0x5C, 0x94, 0x33, 0x38, 0x82, 0x8A, 0x8C],
-                            [0x75, 0x84, 0x53, 0x59, 0x97, 0x98, 0x66, 0x68, 0x94, 0x81],
-                            [0x71, 0x83, 0x8A, 0x88, 0x91, 0x62, 0x69, 0x92, 0x9B, 0x98]
-                        ];
-                        var initialTimer = setInterval(() => {
-                            if (texture.ready) {
-                                canvas.width = texture.width * 10;
-                                canvas.height = texture.height * 4;
-                                var ctx = canvas.getContext("2d");
-                                for (var i = 0; i < 4; i++)
-                                    for (var j = 0; j < 10; j++) {
-                                        ctx.drawImage(texture.canvas,
-                                            texture.width * (data[i][j] & 0x0F),
-                                            texture.height * (data[i][j] >> 4),
-                                            texture.width, texture.height,
-                                            texture.width * j, texture.height * i,
-                                            texture.width, texture.height);
-                                    }
-                                clearInterval(initialTimer);
-                            }
-                        }, 10);
-                        return page;
-                    }
-                    const block_textures = [
-                        ["Block1", "assets/white/texture3.png"],
-                        ["Block2", "assets/white/texture4.png"],
-                        ["Block3", "assets/white/texture5.png"],
-                        ["Block4", "assets/white/texture6.png"],
-                        ["Block5", "assets/white/texture7.png"],
-                        ["Block6", "assets/white/texture9.png"],
-                        ["Block7", "assets/white/texture10.png"],
-                        ["Block8", "assets/white/texture11.png"],
-                        ["Block9", "assets/white/texture12.png"],
-                        ["Block10", "assets/white/texture13.png"],
-                        ["Block11", "assets/white/texture14.png"],
-                        ["Block12", "assets/white/texture15.png"],
-                        ["Block13", "assets/white/texture16.png"],
-                        ["Block14", "assets/white/texture17.png"],
-                        ["Block15", "assets/white/texture18.png"],
-                        ["Block16", "assets/white/texture19.png"],
-                        ["Block17", "assets/white/texture20.png"],
-                        ["Block18", "assets/white/texture21.png"],
-                        ["Block19", "assets/white/texture22.png"],
-                        ["Block20", "assets/white/texture23.png"],
-                        ["Block21", "assets/white/texture24.png"]
-                    ];
-                    const block_shadow = [
-                        ["Shadow1", "assets/white/texture1_shadow.png"],
-                        ["Shadow2", "assets/white/texture24_shadow.png"]
-                    ];
-                    var block_texture_list = document.querySelector("#block-texture-selector .gallery-page-scoller");
-                    var block_shadow_list = document.querySelector("#block-shadow-selector .gallery-page-scoller");
-                    block_textures.forEach(texture => {
-                        var newNode = makeGalleryPage(texture[0], texture[1]);
-                        block_texture_list.appendChild(newNode);
-                    });
-                    block_shadow.forEach(texture => {
-                        var newNode = makeGalleryPage(texture[0], texture[1]);
-                        block_shadow_list.appendChild(newNode);
-                    });
-                    var block_texture_selector = new makeGallery("#block-texture-selector");
-                    var block_shadow_selector = new makeGallery("#block-shadow-selector");
-                    const init_block_texture = 4;
-                    const init_block_shadow = 1;
-                    for (var i = 0; i < init_block_texture - 1; i++) block_texture_selector.jsMoveNext();
-                    for (var i = 0; i < init_block_shadow - 1; i++) block_shadow_selector.jsMoveNext();
-                </script>
-            </div>
-            <div id="save-changes" onclick="saveChanges()">&ensp;Save</div>
-            <script type="text/javascript">
-                var tetris = null;
-                var keyInputList = document.querySelectorAll("#keys-setting input");
-                var gameInputList = document.querySelectorAll("#game-setting input");
-
-                var block_texture_list_pages = document.querySelectorAll("#block-texture-selector .gallery-page-scoller .gallery-page");
-                var block_shadow_list_pages = document.querySelectorAll("#block-shadow-selector .gallery-page-scoller .gallery-page");
-                var get_block_texture_src = () => block_texture_list_pages[block_texture_selector.current_gallery_page].texture_src;
-                var get_block_shadow_src = () => block_shadow_list_pages[block_shadow_selector.current_gallery_page].texture_src;
-
-                function saveChanges() {
-                    var kwargs = {
-                        control: {
-                            DRR: parseInt(gameInputList[0].value),
-                            DAS: parseInt(gameInputList[1].value),
-                            ARR: parseInt(gameInputList[2].value),
-                            SDDAS: parseInt(gameInputList[3].value),
-                            SDARR: parseInt(gameInputList[4].value),
-                            screenSpeed: parseInt(gameInputList[5].value),
-                            keys: {
-                                moveLeft: parseInt(keyInputList[0].getAttribute("data-keyCode")),
-                                moveRight: parseInt(keyInputList[1].getAttribute("data-keyCode")),
-                                softDrop: parseInt(keyInputList[2].getAttribute("data-keyCode")),
-                                hardDrop: parseInt(keyInputList[3].getAttribute("data-keyCode")),
-                                rotateLeft: parseInt(keyInputList[4].getAttribute("data-keyCode")),
-                                rotateRight: parseInt(keyInputList[5].getAttribute("data-keyCode")),
-                                rotate180: parseInt(keyInputList[6].getAttribute("data-keyCode")),
-                                holdBlock: parseInt(keyInputList[7].getAttribute("data-keyCode"))
-                            }
-                        },
-                        view: {
-                            width: parseInt(gameInputList[6].value),
-                            height: parseInt(gameInputList[7].value),
-                            block_texture_src: get_block_texture_src(),
-                            block_shadow_src: get_block_shadow_src()
-                        }
-                    };
-                    console.log(kwargs);
-                    //tetris.game.destroy();
-
-                    tetris.games.main.game.setConfig(kwargs);
-
-                    //RemoveTetrisElement("tetris");
-                    //tetris = CreateTetrisElement("tetris", true, kwargs);
-                    //document.body.appendChild(tetris.htmlElement);
-                    /*
-                    tetris = CreateTetris("board", "next1", "next2", "next3", "next4", "next5", "hold", kwargs);
-                    document.querySelector("#reset").onclick = tetris.controller.reset;
-                    document.querySelector("#start").onclick = tetris.controller.start;
-                    document.querySelector("#pause").onclick = tetris.controller.stop;
-                    */
-                    console.log(tetris);
-                }
-            </script>
-        </div>
-    </div>
-    <!--
-    <div class="main">
-        <div class="left-div">
-            <div class="title-style">hold</div>
-            <div class="block-style">
-                <div>
-                    <canvas id="hold"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="board-div">
-            <canvas id="board"></canvas>
-        </div>
-        <div class="right-div">
-            <div class="title-style">next</div>
-            <div class="block-style">
-                <div>
-                    <canvas id="next1"></canvas>
-                </div>
-            </div>
-            <div class="block-style">
-                <div>
-                    <canvas id="next2"></canvas>
-                </div>
-            </div>
-            <div class="block-style">
-                <div>
-                    <canvas id="next3"></canvas>
-                </div>
-            </div>
-            <div class="block-style">
-                <div>
-                    <canvas id="next4"></canvas>
-                </div>
-            </div>
-            <div class="block-style">
-                <div>
-                    <canvas id="next5"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
-    <script src="js/rec1.js"></script>
+    <script src="js/replays/rp-train-0.js"></script>
+    <script src="js/replays/rp-train-100.js"></script>
+    <script src="js/replays/rp-train-500.js"></script>
+    <script src="js/replays/rp-train-1000.js"></script>
+    <script src="js/replays/rp-train-2000.js"></script>
+    <script src="js/replays/rp-train-4000.js"></script>
+    <script src="js/replays/rp-train-10000.js"></script>
+    <script src="js/replays/rp-train-20000.js"></script>
+    <script src="js/replays/rp-train-30000.js"></script>
+    <script src="js/replays/rp-train-40000.js"></script>
+    <script src="js/replays/rp-train-50000.js"></script>
+    <script src="js/replays/rp-train-100000.js"></script>
+    <script src="js/replays/rp-train-500000.js"></script>
+    <script src="js/replays/rp-train-1000000.js"></script>
+    <script src="js/replays/final_rec.js"></script>
     <script type="text/javascript">
-        // tetris = CreateGameHandler(document.body, document.body);
-        tetris = CreateReplayer(document.body);
-        tetris.replay(0, rec1);
-        tetris.replay(0, rec1);
-        console.log(tetris);
+        var tetris = CreateReplayer(document.body);
     </script>
-    <div></div>
+    <div class="control-panel-container">
+        <div class="control-panel">
+            <div class="control-title-style">
+                遊戲錄影
+            </div>
+            <div class="control-content-style">
+                訓練次數
+            </div>
+            <div class="control-rp-sel"></div>
+            <div class="control-content-style">
+                播放速度 (ms)
+            </div>
+            <div class="slidecontainer">
+                <input class="slider" id="delay-sel" type="range" min="0" max="1000" value="1000" step="1">
+                <div id="delay-value">1000</div>
+            </div>
+            <div class="score-board-title">計分板</div>
+            <div class="step-rewards-board" id="step-rewards-board">得分</div>
+            <div class="total-rewards-board" id="total-rewards-board">總分</div>
+        </div>
+    </div>
+    <script>
+        var delay_sel = document.querySelector("#delay-sel");
+        var delay_val = document.querySelector('#delay-value');
+        var myUnits = '';
+        var off = (delay_sel.offsetWidth - 70) / (parseInt(delay_sel.max) - parseInt(delay_sel.min));
+        var px = ((delay_sel.valueAsNumber - parseInt(delay_sel.min)) * off) - (delay_val.offsetParent.offsetWidth / 2);
+        delay_val.style.left = px + 'px';
+        delay_val.style.top = (delay_sel.offsetHeight - 12) + 'px';
+        delay_val.innerHTML = delay_sel.value + ' ' + myUnits;
+        delay_sel.oninput = function () {
+            let px = ((delay_sel.valueAsNumber - parseInt(delay_sel.min)) * off) - (delay_val.offsetWidth / 2);
+            delay_val.innerHTML = delay_sel.value.padStart(4).replace(/\ /g, "&ensp;");;
+            delay_val.style.left = (px + 36) + 'px';
+        };
+        delay_sel.oninput();
+    </script>
+    <script>
+        var rp_sel = document.querySelector(".control-rp-sel");
+        var rp_list = [
+            { name: "0      ", rec: train_0 },
+            { name: "100    ", rec: train_100 },
+            { name: "500    ", rec: train_500 },
+            { name: "1000   ", rec: train_1000 },
+            { name: "2000   ", rec: train_2000 },
+            { name: "4000   ", rec: train_4000 },
+            { name: "10000  ", rec: train_10000 },
+            { name: "20000  ", rec: train_20000 },
+            { name: "30000  ", rec: train_30000 },
+            { name: "40000  ", rec: train_40000 },
+            { name: "50000  ", rec: train_50000 },
+            { name: "100000 ", rec: train_100000 },
+            { name: "500000 ", rec: train_500000 },
+            { name: "1000000", rec: train_1000000 },
+            { name: "Final  ", rec: final_rec }
+        ];
+        for (let i = 0; i < rp_list.length; i++) {
+            let btn = document.createElement('button');
+            btn.innerHTML = `${rp_list[i].name}`;
+            btn.onfocus = () => {
+                tetris.replay(() => delay_sel.valueAsNumber, rp_list[i].rec);
+            };
+            rp_sel.appendChild(btn);
+        }
+        var rewards_board = document.querySelector("#step-rewards-board");
+        var total_rewards_board = document.querySelector("#total-rewards-board");
+        var re = /\ /g;
+        tetris.onrender = (rewards, total_rewards) => {
+            let rewards_str = String(rewards.toFixed(2)).padStart(9);
+            let total_rewards_str = String(total_rewards.toFixed(2)).padStart(9);
+            rewards_board.innerHTML = "得分" + rewards_str.replace(re, "&ensp;");
+            total_rewards_board.innerHTML = "總分" + total_rewards_str.replace(re, "&ensp;");
+        };
+    </script>
 </body>
 
 </html>

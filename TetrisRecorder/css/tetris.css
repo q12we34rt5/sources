@@ -1,5 +1,5 @@
 .main {
-    --width: 90vw;
+    --width: 840px;
     width: var(--width);
     height: calc(1.0 * var(--width));
     --max-width: 840px;
@@ -8,7 +8,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin: auto;
+    margin-top: auto;
+    margin-bottom: auto;
     position: relative;
 }
 
