@@ -241,15 +241,11 @@
     </div>
     <script>
         var delay_sel = document.querySelector("#delay-sel");
-        var delay_val = document.querySelector('#delay-value');
-        var myUnits = '';
         var off = (delay_sel.offsetWidth - 70) / (parseInt(delay_sel.max) - parseInt(delay_sel.min));
-        var px = ((delay_sel.valueAsNumber - parseInt(delay_sel.min)) * off) - (delay_val.offsetParent.offsetWidth / 2);
-        delay_val.style.left = px + 'px';
-        delay_val.style.top = (delay_sel.offsetHeight - 12) + 'px';
-        delay_val.innerHTML = delay_sel.value + ' ' + myUnits;
         delay_sel.oninput = function () {
+            let delay_val = document.querySelector('#delay-value');
             let px = ((delay_sel.valueAsNumber - parseInt(delay_sel.min)) * off) - (delay_val.offsetWidth / 2);
+            delay_val.style.top = (delay_sel.offsetHeight - 12) + 'px';
             delay_val.innerHTML = delay_sel.value.padStart(4).replace(/\ /g, "&ensp;");;
             delay_val.style.left = (px + 36) + 'px';
         };
