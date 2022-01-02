@@ -1,5 +1,5 @@
 .main {
-    --width: 840px;
+    --width: 60vw;
     width: var(--width);
     height: calc(1.0 * var(--width));
     --max-width: 840px;

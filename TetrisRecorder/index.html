@@ -14,12 +14,12 @@
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <style type="text/css">
         .control-panel-container {
-            --width: 420px;
-            width: var(--width);
-            height: calc(1.6 * var(--width));
-            --max-width: 420px;
-            max-width: var(--max-width);
-            max-height: calc(1.6 * var(--max-width));
+            --cwidth: 30vw;
+            --cmax-width: 420px;
+            width: var(--cwidth);
+            height: calc(1.6 * var(--cwidth));
+            max-width: var(--cmax-width);
+            max-height: calc(1.6 * var(--cmax-width));
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
@@ -43,14 +43,14 @@
 
         .control-title-style {
             font-family: monospace;
-            font-size: min(calc(var(--width) / 12), calc(var(--max-width) / 12));
+            font-size: min(calc(var(--cwidth) / 12), calc(var(--cmax-width) / 12));
             color: #31344b;
             margin: 5%;
         }
 
         .control-content-style {
             font-family: monospace;
-            font-size: min(calc(var(--width) / 20), calc(var(--max-width) / 20));
+            font-size: min(calc(var(--cwidth) / 20), calc(var(--cmax-width) / 20));
             color: #31344b;
             margin: 2% 0% 3% 5%;
         }
@@ -73,7 +73,7 @@
             margin: auto;
             margin-bottom: 1.5%;
             font-family: monospace;
-            font-size: min(calc(var(--width) / 20), calc(var(--max-width) / 20));
+            font-size: min(calc(var(--cwidth) / 20), calc(var(--cmax-width) / 20));
             line-height: 2.1;
             color: #31344b;
             text-align: left;
@@ -94,21 +94,21 @@
 
         .score-board-title {
             font-family: monospace;
-            font-size: min(calc(var(--width) / 12), calc(var(--max-width) / 12));
+            font-size: min(calc(var(--cwidth) / 12), calc(var(--cmax-width) / 12));
             color: #31344b;
             margin: 8% 5% 5% 5%;
         }
 
         .step-rewards-board {
             font-family: monospace;
-            font-size: min(calc(var(--width) / 15), calc(var(--max-width) / 15));
+            font-size: min(calc(var(--cwidth) / 15), calc(var(--cmax-width) / 15));
             color: #31344b;
             margin-left: 10%;
         }
 
         .total-rewards-board {
             font-family: monospace;
-            font-size: min(calc(var(--width) / 15), calc(var(--max-width) / 15));
+            font-size: min(calc(var(--cwidth) / 15), calc(var(--cmax-width) / 15));
             color: #31344b;
             margin-left: 10%;
         }
@@ -132,8 +132,8 @@
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 70px;
-            height: 25px;
+            width: min(calc(var(--cwidth) / 6), calc(var(--cmax-width) / 6));
+            height: min(calc(var(--cwidth) / 15), calc(var(--cmax-width) / 15));
             background-color: #dde1e7;
             box-shadow:
                 -2px -2px 2px #ffffffAf, 2px 2px 2px #0000001f,
@@ -145,20 +145,20 @@
 
         #delay-value {
             font-family: monospace;
-            font-size: 20px;
+            font-size: min(calc(var(--cwidth) / 20), calc(var(--cmax-width) / 20));
             color: #31344b;
             position: absolute;
             pointer-events: none;
         }
 
         #github-link {
-            width: 200px;
-            height: 40px;
+            width: min(calc(var(--cwidth) / 1.9), calc(var(--cmax-width) / 1.9));
+            height: min(calc(var(--cwidth) / 9.2), calc(var(--cmax-width) / 9.2));
             position: absolute;
             display: flex;
-            left: 110px;
-            top: 700px;
-            font-size: 20px;
+            left: min(calc(var(--cwidth) / 4.2), calc(var(--cmax-width) / 4.2));
+            top: min(calc(var(--cwidth) * 1.7), calc(var(--cmax-width) * 1.7));
+            font-size: min(calc(var(--cwidth) / 18), calc(var(--cmax-width) / 18));
             font-family: monospace;
             border-radius: 5px;
             transition-duration: 0.2s;
@@ -241,13 +241,13 @@
     </div>
     <script>
         var delay_sel = document.querySelector("#delay-sel");
-        var off = (delay_sel.offsetWidth - 70) / (parseInt(delay_sel.max) - parseInt(delay_sel.min));
         delay_sel.oninput = function () {
+            let off = (delay_sel.offsetWidth * 0.8148) / (parseInt(delay_sel.max) - parseInt(delay_sel.min));
             let delay_val = document.querySelector('#delay-value');
             let px = ((delay_sel.valueAsNumber - parseInt(delay_sel.min)) * off) - (delay_val.offsetWidth / 2);
-            delay_val.style.top = (delay_sel.offsetHeight - 12) + 'px';
+            delay_val.style.top = (delay_sel.offsetHeight - delay_sel.offsetWidth * 0.0317) + 'px';
             delay_val.innerHTML = delay_sel.value.padStart(4).replace(/\ /g, "&ensp;");;
-            delay_val.style.left = (px + 36) + 'px';
+            delay_val.style.left = (px + delay_sel.offsetWidth * 0.0952) + 'px';
         };
         delay_sel.oninput();
     </script>
